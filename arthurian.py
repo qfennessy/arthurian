@@ -218,6 +218,70 @@ def generate_squares(output_file, background_color):
     plt.savefig(output_file, dpi=300, bbox_inches='tight', facecolor=background_color)
     plt.close()
 
+def generate_abstract_rectangles(output_file, background_color):
+    """
+    Generates an abstract pattern with overlapping semi-transparent rectangles.
+    """
+    # Create the figure and axis
+    fig, ax = plt.subplots(figsize=(8, 10))
+    ax.set_xlim(-50, 50)
+    ax.set_ylim(-50, 50)
+    ax.axis('off')
+
+    # Number of rectangles
+    num_rectangles = 100
+
+    # Define 13 different harmonious color palettes
+    color_palettes = [
+        ['#FF5733', '#FF8D1A', '#FFC300', '#FF5733', '#DAF7A6'],  # Warm palette
+        ['#00BFFF', '#1E90FF', '#4682B4', '#5F9EA0', '#6495ED'],  # Cool blues
+        ['#98FB98', '#00FA9A', '#2E8B57', '#66CDAA', '#3CB371'],  # Greens
+        ['#FFD700', '#FFA500', '#FF6347', '#FF4500', '#FF8C00'],  # Vibrant warm
+        ['#9370DB', '#8A2BE2', '#9400D3', '#9932CC', '#BA55D3'],  # Purples
+        ['#40E0D0', '#48D1CC', '#00CED1', '#20B2AA', '#5F9EA0'],  # Teals
+        ['#F08080', '#FA8072', '#E9967A', '#FFA07A', '#FF7F50'],  # Soft pinks
+        ['#A52A2A', '#800000', '#B22222', '#FF0000', '#CD5C5C'],  # Reds
+        ['#808000', '#556B2F', '#6B8E23', '#9ACD32', '#32CD32'],  # Olive tones
+        ['#2F4F4F', '#696969', '#708090', '#778899', '#B0C4DE'],  # Grays and blues
+        ['#ADD8E6', '#87CEFA', '#87CEEB', '#4682B4', '#00BFFF'],  # Light blues
+        ['#FFFACD', '#FAFAD2', '#FFE4B5', '#FFDAB9', '#FFEBCD'],  # Pastels
+        ['#8B4513', '#A0522D', '#D2691E', '#CD853F', '#F4A460'],  # Earth tones
+    ]
+
+    # Randomly select a color palette
+    colors = random.choice(color_palettes)
+
+    for _ in range(num_rectangles):
+        # Random width and height
+        width = random.uniform(5, 20)
+        height = random.uniform(5, 20)
+
+        # Random position
+        x = random.uniform(-50, 50)
+        y = random.uniform(-50, 50)
+
+        # Random rotation angle
+        angle = random.uniform(0, 90)
+
+        # Randomly select a color from the chosen palette
+        color = random.choice(colors)
+
+        # Add transparency
+        alpha = random.uniform(0.2, 0.7)
+
+        # Create a rectangle
+        rectangle = patches.Rectangle((x, y), width, height, angle=angle, color=color, alpha=alpha)
+
+        # Add to the plot
+        ax.add_patch(rectangle)
+
+    # Display the plot
+    plt.gca().set_aspect('equal', adjustable='box')
+
+    plt.savefig(output_file, dpi=300, bbox_inches='tight', facecolor=background_color)
+    plt.close()
+
+
 def generate_irregular_polygons(output_file, background_color):
     """
     Generates a grid of irregular polygons with varying sizes, colors, and rotations,
@@ -301,7 +365,7 @@ def normalize_color_to_255(color):
 
 def main():
     parser = argparse.ArgumentParser(description='Generate various types of artistic patterns')
-    parser.add_argument('style', choices=['noise', 'radial', 'squares', 'polygons'],
+    parser.add_argument('style', choices=['noise', 'radial', 'squares', 'polygons', 'rectangles'],
                         help='The style of art to generate')
     parser.add_argument('-o', '--output', default='art.png',
                         help='Output file name (default: art.png)')
@@ -315,7 +379,8 @@ def main():
         'noise': generate_noise,
         'radial': generate_radial,
         'squares': generate_squares,
-        'polygons': generate_irregular_polygons
+        'polygons': generate_irregular_polygons,
+        'rectangles': generate_abstract_rectangles
     }
 
     # Convert args.color back to 0-255 for passing to the generator

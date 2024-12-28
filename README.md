@@ -10,9 +10,17 @@ Arthurian is a versatile art generation tool that creates abstract compositions 
 
 - Multiple art generation styles:
   - `noise`: Complex abstract diagrams with overlapping polygons and lines
-  - `radial`: Colorful radial patterns with lines radiating outward
-  - `squares`: Grid-based patterns with alternating squares and diamonds
-  - `rectangles`: Structured compositions with semi-transparent teal rectangles
+    ![Noise Style](noise.png)
+  - `radial`: Evenly spaced lines radiating outward with varied colors and random lengths
+    ![Radial Style](radial.png)
+  - `squares`: Dynamic grid patterns with randomized empty spaces and multiple color palettes
+    ![Squares Style](squares.png)
+  - `abstract_rectangles`: Abstract compositions with overlapping semi-transparent rectangles
+    ![Abstract Rectangles Style](rectangles.png)
+  - `irregular_polygons`: Organic mosaic patterns created with irregular polygons of varying sizes and rotations
+    ![Irregular Polygons Style](polygons.png)
+- Customizable background colors using CSS color names or RGB values
+- Clean, modern aesthetic with high-resolution output
 
 ## Installation
 
@@ -25,17 +33,24 @@ pip install -r requirements.txt
 Generate art using the command line interface:
 
 ```bash
-python art_generator.py STYLE -o output.png
+python arthurian.py STYLE [options]
 ```
 
-Where `STYLE` can be one of: `noise`, `radial`, `squares`, or `rectangles`
+Where `STYLE` can be one of: `noise`, `radial`, `squares`, `abstract_rectangles`, or `irregular_polygons`
+
+Options:
+- `-o, --output`: Output filename (default: art.png)
+- `--bg, --background`: Background color using CSS color name or RGB values (default: black)
+  - CSS colors: e.g., "blue", "lemonchiffon"
+  - RGB values: e.g., "255,255,255" for white
 
 Examples:
 ```bash
-python art_generator.py noise -o abstract_noise.png
-python art_generator.py radial -o radial_pattern.png
-python art_generator.py squares -o geometric_squares.png
-python art_generator.py rectangles -o teal_rectangles.png
+python arthurian.py noise -o abstract_noise.png --bg white
+python arthurian.py radial --background "135,206,235"
+python arthurian.py squares --bg lemonchiffon -o geometric_squares.png
+python arthurian.py abstract_rectangles -o layered_art.png --bg skyblue
+python arthurian.py irregular_polygons --bg "124,252,0" -o organic_mosaic.png
 ```
 
 ## Requirements
