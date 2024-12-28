@@ -78,41 +78,68 @@ def generate_radial(output_file):
 
 def generate_squares(output_file):
     """
-    Generates a grid of black shapes, alternating between squares and diamonds, with random rotations.
+    Generates a grid of shapes with varying sizes, colors, and rotations creating a dynamic mosaic pattern.
     """
-    fig, ax = plt.subplots(figsize=(8, 8))
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, 10)
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.set_facecolor('black')
+    ax.set_xlim(-1, 11)
+    ax.set_ylim(-1, 11)
     ax.axis('off')
 
     # Grid size
-    rows, cols = 20, 20
-    cell_size = 0.5
+    rows, cols = 15, 15
+    base_size = 0.8
+
+    # Color palette - modern and vibrant
+    colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEEAD']
 
     # Draw shapes in grid
     for i in range(rows):
         for j in range(cols):
-            # Randomly choose rotation (0, 90, 180, 270 degrees)
-            angle = random.choice([0, 90, 180, 270])
-            x, y = i * cell_size, j * cell_size
+            # Vary size based on position
+            size_factor = 0.5 + 0.5 * np.sin(i/3) * np.cos(j/3)
+            cell_size = base_size * size_factor
             
-            # Create a black square or diamond
-            shape_type = random.choice(['square', 'diamond'])
+            # Center position with some randomness
+            x = i * (10/rows) + random.uniform(-0.1, 0.1)
+            y = j * (10/cols) + random.uniform(-0.1, 0.1)
+            
+            # Randomly choose rotation with smoother transitions
+            angle = (i * j) % 90 + random.uniform(-10, 10)
+            
+            # Alternate between shapes
+            shape_type = random.choice(['square', 'diamond', 'circle'])
+            color = random.choice(colors)
+            
             if shape_type == 'square':
-                shape = patches.Rectangle((x, y), cell_size, cell_size, angle=angle, color='black')
-            else:  # Diamond
-                diamond = [
-                    (x + cell_size / 2, y),
-                    (x + cell_size, y + cell_size / 2),
-                    (x + cell_size / 2, y + cell_size),
-                    (x, y + cell_size / 2),
-                ]
-                shape = patches.Polygon(diamond, closed=True, color='black')
-            
-            ax.add_patch(shape)
+                rect = patches.Rectangle(
+                    (x - cell_size/2, y - cell_size/2),
+                    cell_size, cell_size,
+                    angle=angle,
+                    facecolor=color,
+                    alpha=0.7
+                )
+                ax.add_patch(rect)
+            elif shape_type == 'diamond':
+                diamond = patches.RegularPolygon(
+                    (x, y),
+                    4,
+                    radius=cell_size/np.sqrt(2),
+                    orientation=np.radians(angle),
+                    facecolor=color,
+                    alpha=0.7
+                )
+                ax.add_patch(diamond)
+            else:  # circle
+                circle = patches.Circle(
+                    (x, y),
+                    radius=cell_size/2,
+                    facecolor=color,
+                    alpha=0.7
+                )
+                ax.add_patch(circle)
 
-    plt.gca().set_aspect('equal', adjustable='box')
-    plt.savefig(output_file, dpi=300, bbox_inches='tight')
+    plt.savefig(output_file, dpi=300, bbox_inches='tight', facecolor='black')
     plt.close()
 
 def generate_refined_rectangles(output_file):
