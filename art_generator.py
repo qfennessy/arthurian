@@ -6,9 +6,13 @@ import numpy as np
 import random
 import argparse
 
+import matplotlib.pyplot as plt
+import numpy as np
+import random
+
 def generate_noise(output_file):
     """
-    Generates a complex abstract diagram of overlapping polygons and lines.
+    Generates a complex abstract diagram of overlapping polygons and lines with randomized shades of gray and rotations.
     """
     fig, ax = plt.subplots(figsize=(8, 8))
     ax.set_xlim(-100, 100)
@@ -16,34 +20,54 @@ def generate_noise(output_file):
     ax.axis('off')
 
     # Number of shapes
-    num_shapes = 200
+    num_shapes = random.randint(150, 400)
 
     for _ in range(num_shapes):
         # Random center
         center_x, center_y = random.uniform(-100, 100), random.uniform(-100, 100)
         # Random number of vertices
-        num_vertices = random.randint(3, 10)
+        num_vertices = random.randint(4, 9)
         # Generate angles for vertices
         angles = np.linspace(0, 2 * np.pi, num_vertices, endpoint=False)
         # Random radius
         radius = random.uniform(4, 32)
         # Compute polygon vertices
-        x = center_x + radius * np.cos(angles)
-        y = center_y + radius * np.sin(angles)
+        x = radius * np.cos(angles)
+        y = radius * np.sin(angles)
+
+        # Apply random rotation
+        rotation_angle = random.uniform(0, 2 * np.pi)  # Rotation angle in radians
+        rotation_matrix = np.array([[np.cos(rotation_angle), -np.sin(rotation_angle)],
+                                     [np.sin(rotation_angle), np.cos(rotation_angle)]])
+        rotated_vertices = np.dot(rotation_matrix, np.array([x, y]))
+        x_rotated = rotated_vertices[0] + center_x
+        y_rotated = rotated_vertices[1] + center_y
+
+        # Random gray shade
+        gray_shade = random.uniform(.4, 1.0)
+        color = (gray_shade, gray_shade, gray_shade)
+
         # Add random connections
         if random.random() < 0.95:
-            ax.plot([center_x] + x.tolist() + [center_x], [center_y] + y.tolist() + [center_y], 'k-', linewidth=0.1)
+            ax.plot([center_x] + x_rotated.tolist() + [center_x],
+                    [center_y] + y_rotated.tolist() + [center_y], 
+                    color=color, linewidth=1.2)
         else:
-            ax.plot(x, y, 'k-', linewidth=1.2)
+            ax.plot(x_rotated, y_rotated, color=color, linewidth=0.8)
 
     # Add random lines
     for _ in range(150):
         x1, y1 = random.uniform(-100, 100), random.uniform(-100, 100)
         x2, y2 = random.uniform(-100, 100), random.uniform(-100, 100)
-        ax.plot([x1, x2], [y1, y2], 'k-', linewidth=0.3)
+        # Random gray shade
+        gray_shade = random.uniform(0, 1)
+        color = (gray_shade, gray_shade, gray_shade)
+        ax.plot([x1, x2], [y1, y2], color=color, linewidth=0.3)
 
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close()
+
+
 
 def generate_radial(output_file):
     """
