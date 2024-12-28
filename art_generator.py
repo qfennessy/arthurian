@@ -115,9 +115,48 @@ def generate_squares(output_file):
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close()
 
+def generate_abstract_rectangles(output_file):
+    """
+    Generates an abstract pattern with overlapping semi-transparent rectangles.
+    """
+    # Create the figure and axis
+    fig, ax = plt.subplots(figsize=(8, 10))
+    ax.set_xlim(-50, 50)
+    ax.set_ylim(-50, 50)
+    ax.axis('off')
+
+    # Number of rectangles
+    num_rectangles = 100
+
+    for _ in range(num_rectangles):
+        # Random width and height
+        width = random.uniform(5, 20)
+        height = random.uniform(5, 20)
+        
+        # Random position
+        x = random.uniform(-50, 50)
+        y = random.uniform(-50, 50)
+
+        # Random rotation angle
+        angle = random.uniform(0, 90)
+
+        # Random color with transparency
+        color = (0, random.uniform(0.5, 1.0), random.uniform(0.5, 1.0), random.uniform(0.2, 0.5))  # Teal shades
+
+        # Create a rectangle
+        rectangle = patches.Rectangle((x, y), width, height, angle=angle, color=color, alpha=color[3])
+
+        # Add to the plot
+        ax.add_patch(rectangle)
+
+    # Display the plot
+    plt.gca().set_aspect('equal', adjustable='box')
+    plt.savefig(output_file, dpi=300, bbox_inches='tight')
+    plt.close()
+
 def main():
     parser = argparse.ArgumentParser(description='Generate various types of artistic patterns')
-    parser.add_argument('style', choices=['noise', 'radial', 'squares'],
+    parser.add_argument('style', choices=['noise', 'radial', 'squares', 'rectangles'],
                       help='The style of art to generate')
     parser.add_argument('-o', '--output', default='art.png',
                       help='Output file name (default: art.png)')
@@ -128,7 +167,8 @@ def main():
     generators = {
         'noise': generate_noise,
         'radial': generate_radial,
-        'squares': generate_squares
+        'squares': generate_squares,
+        'rectangles': generate_abstract_rectangles
     }
 
     # Generate the art
