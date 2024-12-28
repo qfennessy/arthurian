@@ -1,10 +1,14 @@
 # Arthurian
 
-A Python-based art generation tool that creates unique abstract compositions using various geometric patterns and styles.
+This was inspired by images contributed to bluesky by 
+- @shurastei.bsky.social
+- @jeffpalmer.bsky.social
+- @pb67art.bsky.social
+- @whitekoalaart.bsky.social
 
 ## Description
 
-Arthurian is a versatile art generation tool that creates abstract compositions using different geometric patterns and styles. Each style produces unique visual outputs with distinct characteristics, making it suitable for generating art for various purposes.
+Arthurian is a basic art generation tool that creates abstract compositions using different geometric patterns and styles. This is largely a learning exercise for me. I have seen very interesting art on Bluesky recently and I was inspired. 
 
 ## Features
 
