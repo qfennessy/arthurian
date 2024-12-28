@@ -115,41 +115,36 @@ def generate_squares(output_file):
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close()
 
-def generate_abstract_rectangles(output_file):
+def generate_refined_rectangles(output_file):
     """
-    Generates an abstract pattern with overlapping semi-transparent rectangles.
+    Generates an abstract pattern with structured overlapping semi-transparent rectangles.
     """
-    # Create the figure and axis
     fig, ax = plt.subplots(figsize=(8, 10))
     ax.set_xlim(-50, 50)
     ax.set_ylim(-50, 50)
     ax.axis('off')
 
     # Number of rectangles
-    num_rectangles = 100
+    num_rectangles = 50
 
     for _ in range(num_rectangles):
-        # Random width and height
-        width = random.uniform(5, 20)
-        height = random.uniform(5, 20)
+        # Fixed-width and height ranges for rectangles
+        width = random.uniform(10, 30)
+        height = random.uniform(10, 30)
         
         # Random position
         x = random.uniform(-50, 50)
         y = random.uniform(-50, 50)
 
-        # Random rotation angle
-        angle = random.uniform(0, 90)
+        # Random rotation angle, keeping it subtle
+        angle = random.choice([0, 15, 30, -15, -30])
 
         # Random color with transparency
-        color = (0, random.uniform(0.5, 1.0), random.uniform(0.5, 1.0), random.uniform(0.2, 0.5))  # Teal shades
+        color = (0, random.uniform(0.5, 1.0), random.uniform(0.5, 1.0), random.uniform(0.3, 0.7))  # Teal shades
 
-        # Create a rectangle
-        rectangle = patches.Rectangle((x, y), width, height, angle=angle, color=color, alpha=color[3])
-
-        # Add to the plot
+        rectangle = patches.Rectangle((x, y), width, height, angle=angle, color=color, alpha=color[3], ec="none")
         ax.add_patch(rectangle)
 
-    # Display the plot
     plt.gca().set_aspect('equal', adjustable='box')
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close()
@@ -157,9 +152,9 @@ def generate_abstract_rectangles(output_file):
 def main():
     parser = argparse.ArgumentParser(description='Generate various types of artistic patterns')
     parser.add_argument('style', choices=['noise', 'radial', 'squares', 'rectangles'],
-                      help='The style of art to generate')
+                        help='The style of art to generate')
     parser.add_argument('-o', '--output', default='art.png',
-                      help='Output file name (default: art.png)')
+                        help='Output file name (default: art.png)')
 
     args = parser.parse_args()
 
@@ -168,7 +163,7 @@ def main():
         'noise': generate_noise,
         'radial': generate_radial,
         'squares': generate_squares,
-        'rectangles': generate_abstract_rectangles
+        'rectangles': generate_refined_rectangles
     }
 
     # Generate the art
