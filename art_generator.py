@@ -26,15 +26,15 @@ def generate_noise(output_file):
         # Generate angles for vertices
         angles = np.linspace(0, 2 * np.pi, num_vertices, endpoint=False)
         # Random radius
-        radius = random.uniform(5, 20)
+        radius = random.uniform(4, 32)
         # Compute polygon vertices
         x = center_x + radius * np.cos(angles)
         y = center_y + radius * np.sin(angles)
         # Add random connections
-        if random.random() < 0.5:
-            ax.plot([center_x] + x.tolist() + [center_x], [center_y] + y.tolist() + [center_y], 'k-', linewidth=0.5)
+        if random.random() < 0.95:
+            ax.plot([center_x] + x.tolist() + [center_x], [center_y] + y.tolist() + [center_y], 'k-', linewidth=0.1)
         else:
-            ax.plot(x, y, 'k-', linewidth=0.5)
+            ax.plot(x, y, 'k-', linewidth=1.2)
 
     # Add random lines
     for _ in range(150):
